@@ -6,6 +6,8 @@ import { useState } from 'react';
 
 function App() {
 
+  const [showForm, setShowForm] = useState(false)
+
   const [tasks, setTasks] = useState([
     {
      id: 1,
@@ -23,12 +25,13 @@ function App() {
 
  //Add task
  const addTask = (task) => {
-   console.log("task from Addtask:", task);
+   const id = Math.floor(Math.random() * 10000) +1
+   const newTask = { id, ...task }
+   setTasks([...tasks, newTask])
  }
 
  //Delete task
  const deleteTask = (id) => {
-   console.log("delete", id);
    setTasks(tasks.filter((task) => task.id !== id))
  }
 
@@ -42,8 +45,8 @@ function App() {
 
   return (
     <div className="container">
-        <Header title="Task Tracker"/>
-        <AddTask onAdd={addTask}/>
+        <Header title="Tasks" onAdd={() => setShowForm(!showForm)} showForm={showForm}/>
+        {showForm && <AddTask onAdd={addTask}/>}
         {tasks.length > 0 ? 
         <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder}/> : 
         'No Tasks To Show'}

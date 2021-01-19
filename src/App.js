@@ -8,9 +8,7 @@ import { BrowserRouter as Router, Route} from 'react-router-dom';
 
 
 function App() {
-
   const [showForm, setShowForm] = useState(false)
-
   const [tasks, setTasks] = useState([])
 
     useEffect(() => {
@@ -37,8 +35,6 @@ function App() {
     return data;
   }
 
-
-
  //Add task
  const addTask = async (task) => {
    const res = await fetch('http://localhost:5000/tasks', {
@@ -48,14 +44,8 @@ function App() {
      },
      body: JSON.stringify(task)
    })
-
    const data = await res.json()
-
    setTasks([...tasks, data])
-
-  //  const id = Math.floor(Math.random() * 10000) +1
-  //  const newTask = { id, ...task }
-  //  setTasks([...tasks, newTask])
  }
 
  //Delete task
@@ -70,7 +60,6 @@ function App() {
  const toggleReminder = async (id) => {
    const taskToToggle = await fetchTask(id)
    const updatedTask = { ...taskToToggle, reminder: !taskToToggle.reminder}
-
    const res = await fetch(`http://localhost:5000/tasks/${id}`, {
     method: 'PUT',
     headers: {
@@ -80,20 +69,16 @@ function App() {
   })
 
   const data = await res.json()
-
    setTasks(tasks.map((task) => task.id === id
    ? { ...task, reminder: data.reminder } : task))
- 
 }
-
-
 
   return (
     <Router>
       <div className="container">
+      <Header title="Tasks" onAdd={() => setShowForm(!showForm)} showForm={showForm}/>
           <Route path='/' exact render={(props) => (
             <>
-              <Header title="Tasks" onAdd={() => setShowForm(!showForm)} showForm={showForm}/>
               {showForm && <AddTask onAdd={addTask}/>}
               {tasks.length > 0 ? 
               <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder}/> : 

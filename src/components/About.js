@@ -1,10 +1,9 @@
-import React from 'react'
-
+import { Link } from 'react-router-dom';
 const About = () => {
     return (
-        <div>
+        <div className='about'>
             <h4>V1.0.2</h4>
-            <a href="/">Back</a>
+            <Link to="/">Back</Link>
         </div>
     )
 }
